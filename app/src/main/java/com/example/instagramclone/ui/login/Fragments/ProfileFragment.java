@@ -1,69 +1,34 @@
 package com.example.instagramclone.ui.login.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.instagramclone.R;
-import com.example.instagramclone.ui.login.Adapter.PostsAdapter;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PostsFragment extends Fragment {
-    private RecyclerView rvPosts;
-    public static final String TAG = "PostsFragment";
-    protected PostsAdapter postsAdapter;
-    protected List<Post> allPosts;
+public class ProfileFragment extends PostsFragment {
     private SwipeRefreshLayout swipeContainer;
-
-    public PostsFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posts, container, false);
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvPosts = view.findViewById(R.id.rvPosts);
-        // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer);
-
-        allPosts = new ArrayList<>();
-        postsAdapter = new PostsAdapter(getContext(), allPosts);
-
-        //set the adapter to the rv
-        rvPosts.setAdapter(postsAdapter);
-
-        //set the layout manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        queryPosts();
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.d(TAG, "onRefresh: ");
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
@@ -72,10 +37,12 @@ public class PostsFragment extends Fragment {
         });
     }
 
+    @Override
     protected void queryPosts() {
-        // Specify which class to query
+        // Lookup the swipe container view
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
+        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.setLimit(20); //limit the return post
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
@@ -86,11 +53,10 @@ public class PostsFragment extends Fragment {
                     Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                   // allPosts.addAll(posts);
-                    //postsAdapter.notifyDataSetChanged();
                 postsAdapter.clear();
                 postsAdapter.addAll(posts);
                 swipeContainer.setRefreshing(false);
+
             }
         });
     }

@@ -13,11 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="username"/>
-    <TextView
-        android:id="@+id/tvTimeStamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="username"/>
 
     <ImageView
         android:id="@+id/ivPostImage"

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Fragments.ComposeFragment;
 import com.example.instagramclone.ui.login.Fragments.PostsFragment;
+import com.example.instagramclone.ui.login.Fragments.ProfileFragment;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
@@ -58,17 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_compose:
                         fragment  = new ComposeFragment();
-                        Toast.makeText(MainActivity.this, "There is no image!!!", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.action_home:
                         //TODO: update fragment
-                        Toast.makeText(MainActivity.this, "There is ddfd image!!!", Toast.LENGTH_LONG).show();
                         fragment  = new PostsFragment();
                         break;
                     case R.id.action_profile:
                         //TODO: update fragment
-                        Toast.makeText(MainActivity.this, "There is no jfk!!!", Toast.LENGTH_LONG).show();
-                        fragment  = new ComposeFragment();
+                        fragment  = new ProfileFragment();
                         break;
                     default:
                         fragment  = new ComposeFragment();
