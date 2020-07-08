@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.login.Fragments.ComposeFragment"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/etDescription"
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/description"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.login.Fragments.ComposeFragment">
 
-    <Button
-        android:id="@+id/btnCaptureImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/take_a_picture"
-        app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/description" />
 
-    <ImageView
-        android:background="@color/colorAccent"
-        android:id="@+id/ivPostImage"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        <Button
+            android:id="@+id/btnCaptureImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/take_a_picture"
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
-    <Button
+        <ImageView
+            android:id="@+id/ivPostImage"
+            android:layout_width="100dp"
+            android:layout_height="10dp"
+            android:background="@color/colorAccent"
+            tools:srcCompat="@tools:sample/avatars" />
 
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/submit"
-        app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
-        android:layout_marginTop="10dp"/>
+        <Button
 
-</LinearLayout>
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/submit"
+            app:layout_constraintTop_toBottomOf="@+id/ivPostImage" />
+
+
+    </LinearLayout>
+</FrameLayout>

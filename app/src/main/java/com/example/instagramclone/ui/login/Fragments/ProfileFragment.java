@@ -2,7 +2,10 @@ package com.example.instagramclone.ui.login.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,12 @@ public class ProfileFragment extends PostsFragment {
                 queryPosts();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_profile, container, false);
+
     }
 
     @Override

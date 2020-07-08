@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Adapter.PostsAdapter;
+import com.example.instagramclone.ui.login.Model.EndlessRecyclerViewScrollListener;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,6 +33,7 @@ public class PostsFragment extends Fragment {
     protected PostsAdapter postsAdapter;
     protected List<Post> allPosts;
     private SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -55,21 +58,34 @@ public class PostsFragment extends Fragment {
 
         //set the adapter to the rv
         rvPosts.setAdapter(postsAdapter);
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         //set the layout manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvPosts.setLayoutManager(linearLayoutManager);
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(page);
+            }
+        };
+        rvPosts.addOnScrollListener(scrollListener);
         queryPosts();
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.d(TAG, "onRefresh: ");
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 queryPosts();
             }
         });
+    }
+
+    private void loadNextDataFromApi(int page) {
+
     }
 
     protected void queryPosts() {
@@ -94,4 +110,5 @@ public class PostsFragment extends Fragment {
             }
         });
     }
+
 }

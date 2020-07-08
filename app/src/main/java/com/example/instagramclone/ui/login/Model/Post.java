@@ -22,6 +22,7 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String USER_ID = "objectId";
 
     public String getDescription(){
         return getString(KEY_DESCRIPTION);
@@ -44,6 +45,7 @@ public class Post extends ParseObject {
     public Date c(){
         return this.getCreatedAt();
     }
+
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);

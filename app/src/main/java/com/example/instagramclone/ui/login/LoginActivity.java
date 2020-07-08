@@ -28,25 +28,28 @@ import com.example.instagramclone.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
     private EditText etUsername;
     private Button btnLogin;
     private EditText etPassword;
+    private Button btnSignUp;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         //check if the user is already signed in
-        if(ParseUser.getCurrentUser() != null){
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if(currentUser != null){
             goMainActivity();
         }
-
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignUp = findViewById(R.id.btnSignUp);
         
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,18 +59,45 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                ParseUser user = new ParseUser();
+                user.setPassword(password);
+                user.setUsername(username);
+                signUp(username, password, user);
+            }
+        });
     }
+
+    private void signUp(String username, String password, ParseUser user) {
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e != null){
+                    Toast.makeText(LoginActivity.this, "something went wrong!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                goMainActivity();
+                Toast.makeText(LoginActivity.this, "Sign-up Success!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private void loginUser(String username, String password) {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(e != null){
-                    Log.e(TAG, "Issue with log in", e);
+                    Toast.makeText(LoginActivity.this, "something went wrong!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 goMainActivity();
-                Toast.makeText(LoginActivity.this, "success!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "success!!", Toast.LENGTH_SHORT).show();
             }
         });
     }

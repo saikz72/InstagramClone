@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.instagramclone.R;
@@ -37,6 +38,7 @@ public class ComposeFragment extends Fragment {
     private Button btnSubmit;
     private ImageView ivPostImage;
     private Button btnCaptureImage;
+    private ProgressBar pbLoading;
     File photoFile;
     public String photoFileName = "photo.jpg";
 
@@ -68,6 +70,7 @@ public class ComposeFragment extends Fragment {
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         ivPostImage = view.findViewById(R.id.ivPostImage);
+        pbLoading = view.findViewById(R.id.pbLoading);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +93,7 @@ public class ComposeFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
+                pbLoading.setVisibility(ProgressBar.VISIBLE);
                 savePost(description, currentUser, photoFile);
             }
         });
@@ -162,6 +166,7 @@ public class ComposeFragment extends Fragment {
                 Log.i(TAG, "Post save was successful!!");
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);    //clear the image view after save
+                pbLoading.setVisibility(ProgressBar.INVISIBLE);
             }
         });
     }

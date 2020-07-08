@@ -84,7 +84,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());
             ParseFile image = post.getImage();
-            Log.d("you", "bind: " + post.c());
             if (image != null)
                 Glide.with(context).load(image.getUrl()).into(ivPostImage);
             String timeAgo = post.getRelativeTimeAgo(post.c().toString());
