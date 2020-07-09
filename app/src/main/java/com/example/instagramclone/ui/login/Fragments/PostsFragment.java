@@ -34,6 +34,7 @@ public class PostsFragment extends Fragment {
     protected List<Post> allPosts;
     private SwipeRefreshLayout swipeContainer;
     private EndlessRecyclerViewScrollListener scrollListener;
+    public static final int MAX_POST_NUMBER = 2;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -79,20 +80,38 @@ public class PostsFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                queryPosts();
+                loadNextDataFromApi(MAX_POST_NUMBER);
             }
         });
     }
 
     private void loadNextDataFromApi(int page) {
-
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(MAX_POST_NUMBER ); //limit the return post
+        query.setSkip(MAX_POST_NUMBER * page);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // allPosts.addAll(posts);
+                //postsAdapter.notifyDataSetChanged();
+                postsAdapter.addAll(posts);
+                swipeContainer.setRefreshing(false);
+            }
+        });
     }
 
     protected void queryPosts() {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
-        query.setLimit(20); //limit the return post
+        query.setLimit(MAX_POST_NUMBER); //limit the return post
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -110,5 +129,6 @@ public class PostsFragment extends Fragment {
             }
         });
     }
+
 
 }

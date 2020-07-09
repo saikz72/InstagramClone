@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fragmentManager = getSupportFragmentManager();
+    public static final int RADIUS_DP = 30;
+    public static final int MARGIN_DP = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

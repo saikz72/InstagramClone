@@ -34,8 +34,8 @@
 
         <ImageView
             android:id="@+id/ivPostImage"
-            android:layout_width="100dp"
-            android:layout_height="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
             android:background="@color/colorAccent"
             tools:srcCompat="@tools:sample/avatars" />
 
