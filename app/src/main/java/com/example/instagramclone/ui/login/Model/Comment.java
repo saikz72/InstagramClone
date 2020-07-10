@@ -28,7 +28,13 @@ public class Comment extends ParseObject {
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
-
+    public String getPostID(){
+        return getString(KEY_POST_ID);
+    }
+    // Sets the String id of the Post that this Comment is for.
+    public void setPostId(Post postId) {
+        put(KEY_POST_ID, postId);
+    }
     public Date getDate() {
         return this.getCreatedAt();
     }

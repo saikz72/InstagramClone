@@ -94,6 +94,7 @@ public class DetailsActivity extends AppCompatActivity {
                 Comment comment = new Comment();
                 comment.setCommentText(etComment.getText().toString());
                 comment.setUser(ParseUser.getCurrentUser());
+                comment.setPostId(post);
                 comment.saveInBackground();
                 etComment.setText("");
                 queryComment();
