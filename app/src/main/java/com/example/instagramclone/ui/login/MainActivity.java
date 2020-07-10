@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Fragments.ComposeFragment;
 import com.example.instagramclone.ui.login.Fragments.PostsFragment;
@@ -46,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
                         //TODO: update fragment
                         fragment  = new ProfileFragment();
                         break;
+                    case R.id.action_like:
+                        Toast.makeText(MainActivity.this, "NOT IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                    case R.id.action_search:
+                        Toast.makeText(MainActivity.this, "NOT IMPLEMENTED", Toast.LENGTH_SHORT).show();
                     default:
-                        fragment  = new ComposeFragment();
+                        fragment  = new PostsFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
