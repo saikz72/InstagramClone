@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:paddingBottom="15dp">
 
 
@@ -82,8 +82,8 @@
 
     <ImageView
         android:id="@+id/ivLike"
-        android:layout_width="30dp"
-        android:layout_height="35dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,9 +91,8 @@
         app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
 
     <ImageView
-        android:id="@+id/ivComment"
-        android:layout_width="30dp"
-        android:layout_height="35dp"
+        android:layout_width="24dp"
+        android:layout_height="30dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="10dp"
         android:background="#BA1D1D"
@@ -101,5 +100,47 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
         tools:srcCompat="@drawable/ic_baseline_comment_24" />
 
+    <ImageView
+        android:id="@+id/ivComment"
+        android:layout_width="24dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:background="#BA1D1D"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toEndOf="@+id/etComment"
+        app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
+        tools:srcCompat="@drawable/ic_baseline_comment_24" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="411dp"
+        android:layout_height="226dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etComment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="409dp"
+            android:layout_height="272dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <EditText
+        android:id="@+id/etComment"
+        android:layout_width="350dp"
+        android:hint="comment on this post"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLowerUsername" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

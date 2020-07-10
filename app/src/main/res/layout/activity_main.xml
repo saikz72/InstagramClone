@@ -63,7 +63,7 @@
     <FrameLayout
         android:id="@+id/flContainer"
         android:layout_width="match_parent"
-        android:layout_height="635dp"
+        android:layout_height="615dp"
         android:layout_above="@+id/bottomNavigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

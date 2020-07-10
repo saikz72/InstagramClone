@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Adapter.ProfileAdapter;
+import com.example.instagramclone.ui.login.LoginActivity;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -51,6 +52,7 @@ public class ProfileFragment extends PostsFragment {
     ParseFile profilePicture;
     ProfileAdapter profileAdapter;
     RecyclerView rvPost;
+    Button btnSignOut;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ProfileFragment extends PostsFragment {
         ivProfilePhoto = view.findViewById(R.id.ivProfilePhoto);
         tvUsername = view.findViewById(R.id.tvUsername);
         rvPost = view.findViewById(R.id.rvPosts);
+        btnSignOut = view.findViewById(R.id.btnSignOut);
 
         allPosts = new ArrayList<>();
         profileAdapter = new ProfileAdapter(getContext(), allPosts);
@@ -77,8 +80,8 @@ public class ProfileFragment extends PostsFragment {
             e.printStackTrace();
         }
         tvUsername.setText(ParseUser.getCurrentUser().getUsername());
-
-        Glide.with(getContext()).load(profilePicture.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);
+        if (profilePicture != null)
+            Glide.with(getContext()).load(profilePicture.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -97,7 +100,17 @@ public class ProfileFragment extends PostsFragment {
                 saveProfile(ParseUser.getCurrentUser(), photoFile);
             }
         });
+
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void launchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -179,7 +192,7 @@ public class ProfileFragment extends PostsFragment {
         });
     }
 
-    public void saveProfile(ParseUser currentUser, File pic){
+    public void saveProfile(ParseUser currentUser, File pic) {
         ParseFile parsePic = new ParseFile(photoFile);
         currentUser.put("profilePhoto", parsePic);
         currentUser.saveInBackground();
