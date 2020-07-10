@@ -87,7 +87,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     //comment listener
-    public void commentSent(){
+    public void onCommentSent(){
         ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +103,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     //profile image listerner
-    public void profilePhotoTap(){
+    public void onProfilePhotoTap(){
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +136,7 @@ public class DetailsActivity extends AppCompatActivity {
     public void queryComment(){
         final ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
         query.addDescendingOrder(Comment.KEY_CREATED_AT);
+        query.whereEqualTo(Comment.KEY_POST_ID, post);
         query.findInBackground(new FindCallback<Comment>() {
             @Override
             public void done(List<Comment> comments, ParseException e) {
@@ -162,10 +163,10 @@ public class DetailsActivity extends AppCompatActivity {
         rvComments.setAdapter(commentsAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComments.setLayoutManager(linearLayoutManager);
-
         inflateViews();
-        profilePhotoTap();
-        commentSent();
+        queryComment();
+        onProfilePhotoTap();
+        onCommentSent();
 
     }
 

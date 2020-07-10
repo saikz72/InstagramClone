@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Model.Comment;
 import com.example.instagramclone.ui.login.Model.Post;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -61,7 +62,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         }
 
         public void bind(Comment comment) {
-            tvUsername.setText(comment.getUser().getUsername());
+            try {
+                tvUsername.setText(comment.getUser().fetchIfNeeded().getUsername());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             tvTimeStamp.setText(comment.getRelativeTimeAgo(comment.getDate().toString()));
             tvComment.setText(comment.getCommentText());
             ParseFile profile = comment.getUser().getParseFile(Post.KEY_PROFILE_IMAGE);
