@@ -1,69 +1,67 @@
-package com.example.instagramclone.ui.login.Fragments;
+package com.example.instagramclone.ui.login;
 
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Adapter.PostsAdapter;
+import com.example.instagramclone.ui.login.Adapter.ProfileAdapter;
+import com.example.instagramclone.ui.login.Fragments.PostsFragment;
 import com.example.instagramclone.ui.login.Model.EndlessRecyclerViewScrollListener;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsFragment extends Fragment {
-    protected RecyclerView rvPosts;
-    public static final String TAG = "PostsFragment";
-    protected PostsAdapter postsAdapter;
-    protected List<Post> allPosts;
+public class ProfileDetailsActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
+    private ImageView ivProfilePhoto;
+    private TextView tvUsername;
+    RecyclerView rvPost;
+    protected ProfileAdapter profileAdapter;
+    protected List<Post> allPosts;
+    ParseUser user;
     private EndlessRecyclerViewScrollListener scrollListener;
-    public static final int MAX_POST_NUMBER = 20;
 
-    public PostsFragment() {
-        // Required empty public constructor
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posts, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile_details);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        rvPosts = view.findViewById(R.id.rvPosts);
-        // Lookup the swipe container view
-        swipeContainer = view.findViewById(R.id.swipeContainer);
+        setViews();
 
+        Intent intent = getIntent();
+        // CHANGE LATER
+        user = intent.getParcelableExtra("userProfile");
         allPosts = new ArrayList<>();
-        postsAdapter = new PostsAdapter(getContext(), allPosts);
+        profileAdapter = new ProfileAdapter(this, allPosts);
 
         //set the adapter to the rv
-        rvPosts.setAdapter(postsAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPost.setAdapter(profileAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         //set the layout manager on the recycler view
-        rvPosts.setLayoutManager(linearLayoutManager);
-        // Retain an instance so that you can call `resetState()` for fresh searches
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        rvPost.setLayoutManager(gridLayoutManager);
+        bindViews();
+
+        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
@@ -71,7 +69,7 @@ public class PostsFragment extends Fragment {
                 loadNextDataFromApi(page);
             }
         };
-        rvPosts.addOnScrollListener(scrollListener);
+        rvPost.addOnScrollListener(scrollListener);
         queryPosts();
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -80,7 +78,7 @@ public class PostsFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                loadNextDataFromApi(MAX_POST_NUMBER);
+                loadNextDataFromApi(PostsFragment.MAX_POST_NUMBER);
             }
         });
     }
@@ -88,47 +86,57 @@ public class PostsFragment extends Fragment {
     private void loadNextDataFromApi(int page) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
-        query.setLimit(MAX_POST_NUMBER ); //limit the return post
-        query.setSkip(MAX_POST_NUMBER * page);
+        query.setLimit(PostsFragment.MAX_POST_NUMBER ); //limit the return post
+        query.setSkip(PostsFragment.MAX_POST_NUMBER * page);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
-                    Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileDetailsActivity.this, "Issue with getting posts", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // allPosts.addAll(posts);
                 //postsAdapter.notifyDataSetChanged();
-                postsAdapter.addAll(posts);
+                profileAdapter.addAll(posts);
                 swipeContainer.setRefreshing(false);
             }
         });
     }
 
+    public void setViews() {
+        tvUsername = findViewById(R.id.tvUsername);
+        ivProfilePhoto = findViewById(R.id.ivProfilePhoto);
+        rvPost = findViewById(R.id.rvPosts);
+        swipeContainer = findViewById(R.id.swipeContainer);
+
+    }
+
+    public void bindViews() {
+        tvUsername.setText(user.getUsername());
+        ParseFile profileImage = user.getParseFile(Post.KEY_PROFILE_IMAGE);
+        Glide.with(this).load(profileImage.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);
+    }
+
     protected void queryPosts() {
-        // Specify which class to query
+        // Lookup the swipe container view
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
-        query.setLimit(MAX_POST_NUMBER); //limit the return post
+        query.whereEqualTo(Post.KEY_USER, user);
+        query.setLimit(PostsFragment.MAX_POST_NUMBER); //limit the return post
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
-                    Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileDetailsActivity.this, "Issue with getting posts", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                   // allPosts.addAll(posts);
-                    //postsAdapter.notifyDataSetChanged();
-                postsAdapter.clear();
-                postsAdapter.addAll(posts);
+                profileAdapter.clear();
+                profileAdapter.addAll(posts);
                 swipeContainer.setRefreshing(false);
+
             }
         });
     }
-
-
 }

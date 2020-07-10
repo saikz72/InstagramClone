@@ -13,16 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
+import com.example.instagramclone.ui.login.Adapter.ProfileAdapter;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,6 +35,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -39,10 +44,13 @@ public class ProfileFragment extends PostsFragment {
     private SwipeRefreshLayout swipeContainer;
     private Button btnAddPhoto;
     private ImageView ivProfilePhoto;
+    private TextView tvUsername;
     File photoFile;
     public String photoFileName = "photo.jpg";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     ParseFile profilePicture;
+    ProfileAdapter profileAdapter;
+    RecyclerView rvPost;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -50,12 +58,25 @@ public class ProfileFragment extends PostsFragment {
         swipeContainer = view.findViewById(R.id.swipeContainer);
         btnAddPhoto = view.findViewById(R.id.btnAddPhoto);
         ivProfilePhoto = view.findViewById(R.id.ivProfilePhoto);
+        tvUsername = view.findViewById(R.id.tvUsername);
+        rvPost = view.findViewById(R.id.rvPosts);
+
+        allPosts = new ArrayList<>();
+        profileAdapter = new ProfileAdapter(getContext(), allPosts);
+
+        //set the adapter to the rv
+        rvPost.setAdapter(profileAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        //set the layout manager on the recycler view
+        rvPost.setLayoutManager(gridLayoutManager);
+
 
         try {
             profilePicture = ParseUser.getCurrentUser().fetch().getParseFile(("profilePhoto"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        tvUsername.setText(ParseUser.getCurrentUser().getUsername());
 
         Glide.with(getContext()).load(profilePicture.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);
         // Setup refresh listener which triggers new data loading
@@ -147,12 +168,11 @@ public class ProfileFragment extends PostsFragment {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
                     Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                postsAdapter.clear();
-                postsAdapter.addAll(posts);
+                profileAdapter.clear();
+                profileAdapter.addAll(posts);
                 swipeContainer.setRefreshing(false);
 
             }

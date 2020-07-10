@@ -26,6 +26,7 @@ import com.example.instagramclone.ui.login.DetailsActivity;
 import com.example.instagramclone.ui.login.Fragments.ProfileFragment;
 import com.example.instagramclone.ui.login.MainActivity;
 import com.example.instagramclone.ui.login.Model.Post;
+import com.example.instagramclone.ui.login.ProfileDetailsActivity;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -56,13 +57,26 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentManager = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
-                Fragment profileFragment = new ProfileFragment();
-                fragmentManager.replace(R.id.flContainer, profileFragment);
-                fragmentManager.addToBackStack(null).commit();
-
+//                FragmentTransaction fragmentManager = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+//                Fragment profileFragment = new ProfileFragment();
+//                fragmentManager.replace(R.id.flContainer, profileFragment);
+//                fragmentManager.addToBackStack(null).commit();
+                int position = holder.getAdapterPosition();
+                ParseUser user = posts.get(position).getUser();
+                Log.d("TAG", "onClick: " + user.getUsername() + "get-->" + ParseUser.getCurrentUser().getUsername());
+                if (!user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                    Intent intent = new Intent(context, ProfileDetailsActivity.class);
+                    intent.putExtra("userProfile", user);
+                    context.startActivity(intent);
+                } else {
+                    FragmentTransaction fragmentManager = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+                    Fragment profileFragment = new ProfileFragment();
+                    fragmentManager.replace(R.id.flContainer, profileFragment);
+                    fragmentManager.addToBackStack(null).commit();
+                }
             }
         };
+
         holder.tvUsername.setOnClickListener(listener);
         holder.ivProfilePhoto.setOnClickListener(listener);
         return holder;
@@ -98,6 +112,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvTimeStamp;
         private ImageView ivPostImage;
         private ImageView ivProfilePhoto;
+        private TextView tvLowerUsername;;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,19 +121,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ivPostImage = itemView.findViewById(R.id.ivPostImage);
             tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
             ivProfilePhoto = itemView.findViewById(R.id.ivProfilePhoto);
+            tvLowerUsername = itemView.findViewById(R.id.tvLowerUsername);
             itemView.setOnClickListener(this);
         }
 
         public void bind(Post post) {
-            tvUsername.setText(post.getUser().getUsername());
+            String username = post.getUser().getUsername();
+            tvUsername.setText(username);
             tvDescription.setText(post.getDescription());
+            tvLowerUsername.setText(username);
             String timeAgo = post.getRelativeTimeAgo(post.getDate().toString());
             tvTimeStamp.setText(timeAgo);
             ParseFile postImage = post.getImage();
             if (postImage != null)
                 Glide.with(context).load(postImage.getUrl()).into(ivPostImage);
             ParseFile profilePhoto = post.getUser().getParseFile("profilePhoto");
-            if(profilePhoto != null)
+            if (profilePhoto != null)
                 Glide.with(context).load(profilePhoto.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);
 
         }
