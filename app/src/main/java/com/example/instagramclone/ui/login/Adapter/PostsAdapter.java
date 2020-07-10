@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.DetailsActivity;
+import com.example.instagramclone.ui.login.Fragments.PostsFragment;
 import com.example.instagramclone.ui.login.Fragments.ProfileFragment;
 import com.example.instagramclone.ui.login.MainActivity;
 import com.example.instagramclone.ui.login.Model.Post;
@@ -134,7 +135,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvTimeStamp.setText(timeAgo);
             ParseFile postImage = post.getImage();
             if (postImage != null)
-                Glide.with(context).load(postImage.getUrl()).into(ivPostImage);
+                Glide.with(context).load(postImage.getUrl()).transform(new RoundedCornersTransformation(40, 10)).into(ivPostImage);
             ParseFile profilePhoto = post.getUser().getParseFile("profilePhoto");
             if (profilePhoto != null)
                 Glide.with(context).load(profilePhoto.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);

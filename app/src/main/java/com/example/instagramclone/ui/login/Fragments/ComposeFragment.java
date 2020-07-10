@@ -37,7 +37,7 @@ public class ComposeFragment extends Fragment {
     private EditText etDescription;
     private Button btnSubmit;
     private ImageView ivPostImage;
-    private Button btnCaptureImage;
+    private ImageView btnCaptureImage;
     private ProgressBar pbLoading;
     File photoFile;
     public String photoFileName = "photo.jpg";

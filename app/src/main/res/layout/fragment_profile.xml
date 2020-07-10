@@ -24,7 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="175dp"
             android:layout_marginTop="20dp"
-            android:text="Sign out" />
+            android:background="@android:color/background_light"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:text="Sign Out" />
     </LinearLayout>
 
     <TextView
@@ -34,18 +37,21 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="9dp"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/ivProfilePhoto"
         android:text="TextView"
+        android:textColor="#070707"
         android:textStyle="bold" />
 
 
     <Button
         android:id="@+id/btnAddPhoto"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="100dp"
-        android:text="update profile picture" />
-
+        android:background="@android:color/background_light"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:text="Edit Profile" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
