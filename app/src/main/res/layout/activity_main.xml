@@ -17,16 +17,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+  >
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:src="@drawable/insta_logo"
                 android:scaleType="centerCrop"
+                android:src="@drawable/insta_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -35,19 +34,21 @@
 
             <ImageView
                 android:id="@+id/dm"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="right"
                 android:src="@drawable/dm_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15">
+
             </ImageView>
 
             <ImageView
-                android:scaleType="centerInside"
                 android:layout_width="305dp"
                 android:layout_height="44dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/instagram_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/dm"
@@ -63,7 +64,7 @@
     <FrameLayout
         android:id="@+id/flContainer"
         android:layout_width="match_parent"
-        android:layout_height="615dp"
+        android:layout_height="557dp"
         android:layout_above="@+id/bottomNavigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
