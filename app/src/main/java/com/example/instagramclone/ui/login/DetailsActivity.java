@@ -171,7 +171,7 @@ public class DetailsActivity extends AppCompatActivity {
         rvComments.setLayoutManager(linearLayoutManager);
         inflateViews();
         setButton(ivLike, post.isLiked(),
-                R.drawable.ic_vector_heart_stroke, R.drawable.ic_vector_heart, R.color.medium_red);
+                R.drawable.ufi_heart, R.drawable.ufi_heart_active, R.color.medium_red);
         setLikeText(post, tvLikeCount);
 
         ivLike.setOnClickListener(new View.OnClickListener() {
@@ -185,13 +185,14 @@ public class DetailsActivity extends AppCompatActivity {
                 }
                 post.saveInBackground();
                 setButton(ivLike, !isLiked,
-                        R.drawable.ic_vector_heart_stroke, R.drawable.ic_vector_heart, R.color.medium_red);
+                        R.drawable.ufi_heart, R.drawable.ufi_heart_active, R.color.medium_red);
                 setLikeText(post, tvLikeCount);
             }
         });
-        queryComment();
+
         onProfilePhotoTap();
         onCommentSent();
+        queryComment();
 
     }
     private void setLikeText(Post post, TextView view) {

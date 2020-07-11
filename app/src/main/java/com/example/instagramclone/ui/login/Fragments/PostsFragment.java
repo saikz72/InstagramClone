@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.instagramclone.R;
@@ -95,7 +94,6 @@ public class PostsFragment extends Fragment {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
                     Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -117,7 +115,6 @@ public class PostsFragment extends Fragment {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
                     Toast.makeText(getContext(), "Issue with getting posts", Toast.LENGTH_SHORT).show();
                     return;
                 }

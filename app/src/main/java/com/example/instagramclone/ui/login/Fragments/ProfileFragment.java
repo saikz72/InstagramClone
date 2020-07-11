@@ -141,7 +141,8 @@ public class ProfileFragment extends PostsFragment {
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d(TAG, "failed to create directory");
+            Toast.makeText(getContext(), "Issue with media storage", Toast.LENGTH_SHORT).show();
+
         }
 
         // Return the file target for the photo based on filename

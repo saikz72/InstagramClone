@@ -5,9 +5,6 @@ import android.text.format.DateUtils;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import org.parceler.Parcel;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,9 +24,6 @@ public class Comment extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
-    }
-    public String getPostID(){
-        return getString(KEY_POST_ID);
     }
     // Sets the String id of the Post that this Comment is for.
     public void setPostId(Post postId) {

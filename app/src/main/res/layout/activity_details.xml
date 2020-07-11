@@ -86,7 +86,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
-        android:src="@drawable/ic_vector_heart_stroke" />
+        android:src="@drawable/ufi_heart" />
 
     <ImageView
         android:layout_width="26dp"

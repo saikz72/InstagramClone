@@ -2,13 +2,11 @@ package com.example.instagramclone.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +14,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
-import com.example.instagramclone.ui.login.Adapter.PostsAdapter;
 import com.example.instagramclone.ui.login.Adapter.ProfileAdapter;
 import com.example.instagramclone.ui.login.Fragments.PostsFragment;
 import com.example.instagramclone.ui.login.Model.EndlessRecyclerViewScrollListener;

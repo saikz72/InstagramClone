@@ -1,10 +1,7 @@
 package com.example.instagramclone.ui.login.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,17 +20,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.DetailsActivity;
-import com.example.instagramclone.ui.login.Fragments.PostsFragment;
 import com.example.instagramclone.ui.login.Fragments.ProfileFragment;
-import com.example.instagramclone.ui.login.MainActivity;
 import com.example.instagramclone.ui.login.Model.Post;
 import com.example.instagramclone.ui.login.ProfileDetailsActivity;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
-
-import java.io.File;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -59,13 +51,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                FragmentTransaction fragmentManager = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
-//                Fragment profileFragment = new ProfileFragment();
-//                fragmentManager.replace(R.id.flContainer, profileFragment);
-//                fragmentManager.addToBackStack(null).commit();
                 int position = holder.getAdapterPosition();
                 ParseUser user = posts.get(position).getUser();
-                Log.d("TAG", "onClick: " + user.getUsername() + "get-->" + ParseUser.getCurrentUser().getUsername());
                 if (!user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                     Intent intent = new Intent(context, ProfileDetailsActivity.class);
                     intent.putExtra("userProfile", user);
@@ -93,7 +80,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 }
                 post.saveInBackground();
                 setButton(holder.ivLike, !isLiked,
-                        R.drawable.ic_vector_heart_stroke, R.drawable.ic_vector_heart, R.color.medium_red);
+                        R.drawable.ufi_heart, R.drawable.ufi_heart_active, R.color.medium_red);
                 setLikeText(post, holder.tvLikeCount);
             }
         });
@@ -164,7 +151,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (profilePhoto != null)
                 Glide.with(context).load(profilePhoto.getUrl()).transform(new CircleCrop()).into(ivProfilePhoto);
             setButton(ivLike, post.isLiked(),
-                    R.drawable.ic_vector_heart_stroke, R.drawable.ic_vector_heart, R.color.medium_red);
+                    R.drawable.ufi_heart, R.drawable.ufi_heart_active, R.color.medium_red);
             setLikeText(post, tvLikeCount);
 
         }

@@ -1,6 +1,5 @@
 package com.example.instagramclone.ui.login.Fragments;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,7 +33,6 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -47,8 +45,6 @@ public class ComposeFragment extends Fragment {
     private ProgressBar pbLoading;
     File photoFile;
     public String photoFileName = "photo.jpg";
-    List<Uri> mArrayUri;
-    List<Bitmap> mBitmapsSelected;
     private ImageView ivSelectImage;
 
 

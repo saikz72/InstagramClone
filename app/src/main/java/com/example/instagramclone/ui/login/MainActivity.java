@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.instagramclone.R;
 import com.example.instagramclone.ui.login.Fragments.ComposeFragment;
