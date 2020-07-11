@@ -1,6 +1,7 @@
 package com.example.instagramclone.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -46,7 +47,9 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvTimeStamp;
     private ImageView ivComment;
     private EditText etComment;
+    private ImageView ivLike;
     private SwipeRefreshLayout swipeContainer;
+    private TextView tvLikeCount;
     public static final String TAG = "DetailsActivity";
     ParseFile profileImage;
     Post post;
@@ -66,6 +69,8 @@ public class DetailsActivity extends AppCompatActivity {
         ivComment = findViewById(R.id.ivComment);
         etComment = findViewById(R.id.etComment);
         swipeContainer = findViewById(R.id.swipeContainer);
+        ivLike = findViewById(R.id.ivLike);
+        tvLikeCount = findViewById(R.id.tvLikeCount);
     }
 
     public void inflateViews() {
@@ -165,11 +170,40 @@ public class DetailsActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComments.setLayoutManager(linearLayoutManager);
         inflateViews();
+        setButton(ivLike, post.isLiked(),
+                R.drawable.ic_vector_heart_stroke, R.drawable.ic_vector_heart, R.color.medium_red);
+        setLikeText(post, tvLikeCount);
+
+        ivLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isLiked = post.isLiked();
+                if (!isLiked) {
+                    post.likePost(ParseUser.getCurrentUser());
+                } else {
+                    post.unlikePost(ParseUser.getCurrentUser());
+                }
+                post.saveInBackground();
+                setButton(ivLike, !isLiked,
+                        R.drawable.ic_vector_heart_stroke, R.drawable.ic_vector_heart, R.color.medium_red);
+                setLikeText(post, tvLikeCount);
+            }
+        });
         queryComment();
         onProfilePhotoTap();
         onCommentSent();
 
     }
+    private void setLikeText(Post post, TextView view) {
+        int likeCount = post.getLikeCount();
+        if (likeCount == 1) view.setText(String.format("%d like", post.getLikeCount()));
+        else view.setText(String.format("%d likes", post.getLikeCount()));
+    }
 
+    // sets the color of a button, depending on whether it is active
+    private void setButton(ImageView iv, boolean isActive, int strokeResId, int fillResId, int activeColor) {
+        iv.setImageResource(isActive ? fillResId : strokeResId);
+        iv.setColorFilter(ContextCompat.getColor(getApplicationContext(), isActive ? activeColor : R.color.medium_red));
+    }
 
 }

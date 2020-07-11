@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="20dp">
+    android:layout_marginTop="10dp"
+    android:background="@drawable/border">
 
 
     <TextView
@@ -47,8 +48,8 @@
 
     <ImageView
         android:id="@+id/ivProfilePhoto"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,11 +63,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:textColor="#070707"
-        android:textStyle="bold"
+        android:layout_marginTop="12dp"
         android:clickable="true"
         android:hint="username"
+        android:textColor="#070707"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivProfilePhoto"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,7 +92,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
-        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     <ImageView
         android:id="@+id/ivComment"
@@ -122,9 +123,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="1 like"
+        android:text="Textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivLike" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

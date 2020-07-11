@@ -107,6 +107,7 @@ public class ProfileFragment extends PostsFragment {
                 ParseUser.logOut();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
     }

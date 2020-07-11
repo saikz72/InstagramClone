@@ -8,20 +8,10 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/insta_search"
-        android:title="Search"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/action_compose"
         android:icon="@drawable/insta_compose"
         android:title="Compose"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_like"
-        android:title="Likes"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_favorite_24"/>
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_baseline_person_24"

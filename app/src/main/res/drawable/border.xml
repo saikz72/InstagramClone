@@ -3,10 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <stroke
-        android:width="1dp"
-        android:color="#bfb059"/>
-    <solid
-        android:color="#070707"
-        />
-    #bfb059
+        android:width="0.5dp"
+        android:color="#afa3a3"/>
 </shape>

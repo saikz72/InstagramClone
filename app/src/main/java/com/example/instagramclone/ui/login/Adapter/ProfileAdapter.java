@@ -55,7 +55,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             // Get the image and load it (if possible)
             ParseFile image = post.getImage();
             if (image != null) {
-                Glide.with(context).load(image.getUrl()).into(ivPost);
+                Glide.with(context).load(image.getUrl()).centerCrop().into(ivPost);
             }
         }
     }

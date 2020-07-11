@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         //TODO: update fragment
                         fragment  = new ProfileFragment();
                         break;
-                    case R.id.action_like:
-                        Toast.makeText(MainActivity.this, "NOT IMPLEMENTED", Toast.LENGTH_SHORT).show();
-                    case R.id.action_search:
-                        Toast.makeText(MainActivity.this, "NOT IMPLEMENTED", Toast.LENGTH_SHORT).show();
                     default:
                         fragment  = new PostsFragment();
                         break;

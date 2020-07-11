@@ -48,8 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
         loginButtonClicked();
-        signUpButton();
-
+        signUpButtonClicked();
 
     }
 
@@ -71,37 +70,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //listerner for sign up button
-    public void signUpButton(){
 
-
+    public void signUpButtonClicked(){
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                ParseUser user = new ParseUser();
-                user.setPassword(password);
-                user.setUsername(username);
-                signUp(username, password, user);
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }
-    private void signUp(String username, String password, ParseUser user) {
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Toast.makeText(LoginActivity.this, "something went wrong!!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                goMainActivity();
-                Toast.makeText(LoginActivity.this, "Sign-up Success!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
     private void loginUser(String username, String password) {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
@@ -116,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void goMainActivity() {
+    public void goMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish(); //makes sure that the user is kept logged in
